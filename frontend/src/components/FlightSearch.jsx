@@ -27,6 +27,10 @@ export default function FlightSearch() {
       setError("Please select both origin and destination airports.");
       return;
     }
+    if (origin.code === destination.code) {
+      setError("Origin and destination cannot be the same airport.");
+      return;
+    }
     if (!date) {
       setError("Please select a departure date.");
       return;
@@ -53,7 +57,7 @@ export default function FlightSearch() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="relative rounded-2xl bg-surface/80 backdrop-blur-xl border border-border p-6 shadow-lg"
       >
-        <div className="flex flex-col lg:flex-row items-end gap-3">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-end gap-3">
           <AirportInput
             label="From"
             icon={<FiMapPin />}
@@ -65,7 +69,7 @@ export default function FlightSearch() {
           <button
             type="button"
             onClick={handleSwap}
-            className="shrink-0 mb-0.5 p-2.5 rounded-full border border-border hover:border-accent hover:bg-accent/5 text-fg-muted hover:text-accent transition-all cursor-pointer self-center lg:self-end lg:mb-0"
+            className="shrink-0 mb-0.5 p-2.5 rounded-full border border-border hover:border-accent hover:bg-accent/5 text-fg-muted hover:text-accent transition-all cursor-pointer self-center lg:self-auto lg:mb-0"
             aria-label="Swap origin and destination"
           >
             <HiOutlineSwitchHorizontal size={18} />
@@ -79,7 +83,7 @@ export default function FlightSearch() {
             placeholder="City or airport"
           />
 
-          <div className="flex-1 min-w-0 lg:max-w-[180px]">
+          <div className="w-full lg:flex-1 min-w-0 lg:max-w-[180px]">
             <label className="block text-xs font-semibold text-fg-muted mb-1.5 uppercase tracking-wider">
               Date
             </label>
@@ -101,7 +105,7 @@ export default function FlightSearch() {
             disabled={loading}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="shrink-0 px-8 py-3 rounded-xl bg-accent hover:bg-accent-dark text-white text-sm font-semibold shadow-lg shadow-accent/25 hover:shadow-accent/40 transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer"
+            className="w-full lg:w-auto shrink-0 px-8 py-3 rounded-xl bg-accent hover:bg-accent-dark text-white text-sm font-semibold shadow-lg shadow-accent/25 hover:shadow-accent/40 transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
           >
             {loading ? (
               <span className="block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

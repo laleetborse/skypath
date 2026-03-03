@@ -36,7 +36,7 @@ public class FlightSearchService {
             throw new AirportNotFoundException(destination);
 
         if (origin.equals(destination))
-            return Collections.emptyList();
+            throw new FlightSearchException("Origin and destination cannot be the same airport: " + origin);
 
         LocalDate departureDate;
         try {

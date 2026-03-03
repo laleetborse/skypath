@@ -138,35 +138,6 @@ Use these to verify your implementation:
 
 ---
 
-## Evaluation Criteria
-
-| Category | Weight | What We're Looking For |
-|----------|--------|------------------------|
-| **Correctness** | 30% | Connection rules implemented precisely; timezone handling correct; edge cases covered |
-| **Code Quality** | 25% | Clean architecture, appropriate abstractions, consistent style |
-| **Problem Solving** | 20% | Efficient algorithm; handles data quirks gracefully |
-| **Documentation** | 15% | Clear README; architecture rationale; honest tradeoff assessment |
-| **Polish & Passion** | 10% | Tests, thoughtful UX, creative additions |
-
----
-
-## Submission
-
-1. Push your code to a **public GitHub repository**
-
-2. Ensure we can run the application with:
-   ```bash
-   git clone <your-repo>
-   cd <your-repo>
-   docker-compose up
-   ```
-
-3. Email the repository link to us
-
-4. **Do not squash your commits**—we want to see your development process
-
----
-
 
 
 After submission, we'll:

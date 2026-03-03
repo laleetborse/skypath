@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiClock, FiArrowRight, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiClock, FiArrowRight, FiChevronDown, FiChevronUp, FiDollarSign } from "react-icons/fi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 
 function formatDuration(minutes) {
@@ -169,7 +169,37 @@ function ItineraryCard({ itinerary, index }) {
   );
 }
 
+const SORT_OPTIONS = [
+  { key: "duration", label: "Fastest", icon: <FiClock size={14} /> },
+  { key: "price", label: "Cheapest", icon: <FiDollarSign size={14} /> },
+  { key: "departure", label: "Departure", icon: <FiArrowRight size={14} /> },
+];
+
+function sortResults(items, sortBy) {
+  const sorted = [...items];
+  switch (sortBy) {
+    case "price":
+      return sorted.sort((a, b) => a.totalPrice - b.totalPrice);
+    case "departure":
+      return sorted.sort((a, b) => {
+        const aTime = new Date(a.segments[0].flight.departureTime).getTime();
+        const bTime = new Date(b.segments[0].flight.departureTime).getTime();
+        return aTime - bTime;
+      });
+    case "duration":
+    default:
+      return sorted.sort((a, b) => a.totalDurationMinutes - b.totalDurationMinutes);
+  }
+}
+
 export default function FlightResults({ results, loading }) {
+  const [sortBy, setSortBy] = useState("duration");
+
+  const sorted = useMemo(
+    () => (results ? sortResults(results, sortBy) : []),
+    [results, sortBy]
+  );
+
   if (loading) {
     return (
       <div className="mt-8 flex flex-col items-center gap-4 py-16">
@@ -200,21 +230,48 @@ export default function FlightResults({ results, loading }) {
     );
   }
 
+  const cheapest = Math.min(...results.map((r) => r.totalPrice));
+  const fastest = Math.min(...results.map((r) => r.totalDurationMinutes));
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="mt-8"
     >
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
         <p className="text-sm text-fg-secondary">
-          <span className="font-semibold text-fg">{results.length}</span> {results.length === 1 ? "route" : "routes"} found
+          <span className="font-semibold text-fg">{results.length}</span>{" "}
+          {results.length === 1 ? "route" : "routes"} found
         </p>
-        <p className="text-xs text-fg-muted">Sorted by duration</p>
+
+        <div className="flex items-center gap-1 p-1 rounded-xl bg-surface-el border border-border">
+          {SORT_OPTIONS.map((opt) => (
+            <button
+              key={opt.key}
+              type="button"
+              onClick={() => setSortBy(opt.key)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                sortBy === opt.key
+                  ? "bg-accent text-white shadow-sm"
+                  : "text-fg-muted hover:text-fg"
+              }`}
+            >
+              {opt.icon}
+              <span>{opt.label}</span>
+              {opt.key === "price" && sortBy !== "price" && (
+                <span className="text-emerald ml-0.5">${cheapest.toFixed(0)}</span>
+              )}
+              {opt.key === "duration" && sortBy !== "duration" && (
+                <span className="text-accent-light ml-0.5">{formatDuration(fastest)}</span>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-3">
-        {results.map((itinerary, i) => (
+        {sorted.map((itinerary, i) => (
           <ItineraryCard key={i} itinerary={itinerary} index={i} />
         ))}
       </div>
