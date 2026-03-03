@@ -1,0 +1,34 @@
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDEs and editors
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Build and package files
+/*.class
+/*.jar
+/*.war
+/*.ear
+
+# Temporary files
+*.tmp
+*.swp
+
+# Spring Boot
+/spring.log
+
+# Others
+*.bak
+*.orig
