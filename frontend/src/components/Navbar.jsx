@@ -38,7 +38,7 @@ export default function Navbar({ theme, toggleTheme }) {
           href="#home"
           className="text-xl font-bold tracking-tight text-fg"
         >
-          laleet<span className="text-accent">.</span>
+          SkyPath<span className="text-accent">.</span>
         </a>
 
         <ul className="hidden md:flex items-center gap-1">
@@ -68,30 +68,6 @@ export default function Navbar({ theme, toggleTheme }) {
           })}
         </ul>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={toggleTheme}
-            className="p-2.5 rounded-full bg-surface-el border border-border text-fg-secondary hover:text-accent hover:border-accent/30 transition-all duration-200"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? <FiSun size={16} /> : <FiMoon size={16} />}
-          </button>
-
-          <a
-            href="#contact"
-            className="hidden md:inline-flex px-5 py-2 rounded-full bg-accent text-white text-sm font-medium hover:bg-accent-dark transition-colors duration-200 shadow-sm shadow-accent/20"
-          >
-            Let&apos;s Talk
-          </a>
-
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2.5 rounded-full bg-surface-el border border-border text-fg-secondary"
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <HiX size={18} /> : <HiMenuAlt3 size={18} />}
-          </button>
-        </div>
       </div>
 
       <AnimatePresence>

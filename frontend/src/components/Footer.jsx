@@ -18,7 +18,7 @@ export default function Footer() {
               skyPath<span className="text-accent">.</span>
             </a>
             <p className="mt-1 text-sm text-fg-muted">
-              Software Engineer at Salesforce.
+              Compare flights. Find the best route.
             </p>
           </div>
 
