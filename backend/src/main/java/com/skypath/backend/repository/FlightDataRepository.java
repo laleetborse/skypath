@@ -48,7 +48,13 @@ public class FlightDataRepository {
             flight.setArrivalTime(LocalDateTime.parse((String) f.get("arrivalTime")));
             Object priceObj = f.get("price");
             double price;
-            price = ((Number) priceObj).doubleValue();
+            if (priceObj instanceof Number) {
+                price = ((Number) priceObj).doubleValue();
+            } else if (priceObj instanceof String) {
+                price = Double.parseDouble((String) priceObj);
+            } else {
+                throw new IllegalArgumentException("Unexpected price value: " + priceObj);
+            }
             flight.setPrice(price);
             flight.setAircraft((String) f.get("aircraft"));
 
