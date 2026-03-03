@@ -2,6 +2,11 @@
 
 A full-stack flight itinerary search engine that finds direct and multi-stop routes between airports, built with **Spring Boot** (backend) and **React + Vite** (frontend), orchestrated with **Docker Compose**.
 
+| Service | Docs |
+|---------|------|
+| Backend (Spring Boot) | [backend/README.md](backend/README.md) |
+| Frontend (React + Vite) | [frontend/README.md](frontend/README.md) |
+
 ---
 
 ## Quick Start
