@@ -123,7 +123,9 @@ With ~260 flights across 25 airports and a max depth of 3:
      arrivalUTC  = toUTC(prev.arrivalTime, arrivalAirport.timezone)
      departureUTC = toUTC(next.departureTime, departureAirport.timezone)
 3. layover = departureUTC - arrivalUTC       → must be >= 0
-4. domestic = (arrivalAirport.country == departureAirport.country)
+4. domestic = (prev.origin.country == connection.country == next.destination.country)
+     All three airports must be in the same country — otherwise international rules apply.
+     e.g. JFK(US)→ORD(US)→LAX(US) = domestic, JFK(US)→LHR(GB)→CDG(FR) = international
 5. minLayover = domestic ? 45 min : 90 min
 6. layover >= minLayover AND layover <= 360 min
 ```

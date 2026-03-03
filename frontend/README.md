@@ -144,11 +144,13 @@ Multi-stage Dockerfile:
 ```
 Stage 1: node:20-alpine
   → npm ci + npm run build
-  → Produces /app/dist (static files)
+  → Cleans up node_modules and src (build artifacts)
+  → Produces /app/dist (static files only)
 
 Stage 2: nginx:alpine
-  → Copies dist to /usr/share/nginx/html
+  → Copies only dist to /usr/share/nginx/html
   → Copies nginx.conf for routing
+  → Final image contains no source code or build tools
 ```
 
 ### Nginx Configuration
@@ -167,4 +169,13 @@ The Nginx layer acts as an **API gateway** — the browser only talks to Nginx o
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `VITE_API_BASE_URL` | `http://localhost:8080/api` | Backend API base URL (dev only; production uses Nginx proxy) |
+| `VITE_API_BASE_URL` | `http://localhost:8080/api` | Backend API base URL |
+
+Vite uses different `.env` files per mode:
+
+| File | When Used | Value |
+|------|-----------|-------|
+| `.env` | Local development (`npm run dev`) | `http://localhost:8080/api` — connects directly to the backend |
+| `.env.production` | Docker / production build (`npm run build`) | `/api` — relative path, routed through Nginx reverse proxy |
+
+**Important:** `.env.production` must be included in the Docker build context. The `.dockerignore` excludes only `.env.local` and `.env.*.local` files (developer-specific overrides).

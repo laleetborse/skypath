@@ -2,3 +2,8 @@ target/
 .idea/
 *.iml
 .git
+.gitignore
+README.md
+*.md
+.env*
+.vscode

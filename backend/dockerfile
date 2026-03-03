@@ -5,7 +5,7 @@ COPY .mvn .mvn
 COPY mvnw .
 RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
 COPY src src
-RUN ./mvnw package -DskipTests -B
+RUN ./mvnw package -DskipTests -B && rm -rf src .mvn target/classes target/generated-sources
 
 FROM eclipse-temurin:17-jre
 WORKDIR /app
