@@ -1,5 +1,6 @@
 package com.skypath.backend.service;
 
+import com.skypath.backend.exception.AirportNotFoundException;
 import com.skypath.backend.model.*;
 import com.skypath.backend.repository.FlightDataRepository;
 import org.springframework.stereotype.Service;
@@ -26,9 +27,10 @@ public class FlightSearchService {
                                   String destination,
                                   String date) {
 
-        if (!repository.getAirports().containsKey(origin)
-                || !repository.getAirports().containsKey(destination))
-            throw new RuntimeException("Invalid airport code");
+        if (!repository.getAirports().containsKey(origin))
+            throw new AirportNotFoundException(origin);
+        if (!repository.getAirports().containsKey(destination))
+            throw new AirportNotFoundException(destination);
 
         if (origin.equals(destination))
             return Collections.emptyList();
