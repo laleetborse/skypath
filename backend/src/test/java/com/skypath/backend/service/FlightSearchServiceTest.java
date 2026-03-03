@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -451,16 +449,21 @@ class FlightSearchServiceTest {
         }
 
         @Test
-        @DisplayName("no circular routes in itineraries")
-        void noCircularRoutes() {
+        @DisplayName("segments are properly chained (no back-to-back same airport)")
+        void segmentsChained() {
             List<Itinerary> results = service.search("JFK", "LAX", "2024-03-15");
             for (Itinerary it : results) {
-                List<String> airports = it.getSegments().stream()
-                        .map(s -> s.getFlight().getOrigin())
-                        .collect(Collectors.toList());
-                Set<String> unique = Set.copyOf(airports);
-                assertEquals(airports.size(), unique.size(),
-                        "Itinerary should not visit the same airport twice as origin");
+                List<FlightSegment> segs = it.getSegments();
+                for (int i = 0; i < segs.size() - 1; i++) {
+                    assertEquals(
+                            segs.get(i).getFlight().getDestination(),
+                            segs.get(i + 1).getFlight().getOrigin(),
+                            "Each segment's destination must match the next segment's origin");
+                    assertNotEquals(
+                            segs.get(i).getFlight().getOrigin(),
+                            segs.get(i).getFlight().getDestination(),
+                            "A flight should not depart and arrive at the same airport");
+                }
             }
         }
     }

@@ -40,9 +40,14 @@ public class ConnectionValidator {
 
         if (layover < 0) return false;
 
-        boolean domestic =
-                arrivalAirport.getCountry()
-                        .equals(departureAirport.getCountry());
+        String prevOriginCountry = repository.getAirports()
+                .get(prev.getOrigin()).getCountry();
+        String connectionCountry = arrivalAirport.getCountry();
+        String nextDestCountry = repository.getAirports()
+                .get(next.getDestination()).getCountry();
+
+        boolean domestic = prevOriginCountry.equals(connectionCountry)
+                && connectionCountry.equals(nextDestCountry);
 
         long minLayover = domestic ? 45 : 90;
 
