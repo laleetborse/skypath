@@ -41,33 +41,58 @@ export default function Navbar({ theme, toggleTheme }) {
           SkyPath<span className="text-accent">.</span>
         </a>
 
-        <ul className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => {
-            const active = activeSection === link.href.replace("#", "");
-            return (
-              <li key={link.name}>
-                <a
-                  href={link.href}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-200 ${
-                    active
-                      ? "text-accent"
-                      : "text-fg-secondary hover:text-fg"
-                  }`}
-                >
-                  {link.name}
-                  {active && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      className="absolute inset-0 rounded-full bg-accent/10 -z-10"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+        <div className="hidden md:flex items-center gap-1">
+          <ul className="flex items-center gap-1">
+            {navLinks.map((link) => {
+              const active = activeSection === link.href.replace("#", "");
+              return (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors duration-200 ${
+                      active
+                        ? "text-accent"
+                        : "text-fg-secondary hover:text-fg"
+                    }`}
+                  >
+                    {link.name}
+                    {active && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        className="absolute inset-0 rounded-full bg-accent/10 -z-10"
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+          <button
+            onClick={toggleTheme}
+            className="ml-2 p-2 rounded-full text-fg-muted hover:text-accent hover:bg-accent/5 transition-all cursor-pointer"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <FiSun size={18} /> : <FiMoon size={18} />}
+          </button>
+        </div>
 
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full text-fg-muted hover:text-accent hover:bg-accent/5 transition-all cursor-pointer"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <FiSun size={18} /> : <FiMoon size={18} />}
+          </button>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-full text-fg-muted hover:text-fg transition-colors cursor-pointer"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <HiX size={22} /> : <HiMenuAlt3 size={22} />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>

@@ -1,11 +1,14 @@
 package com.skypath.backend.service;
 
 import com.skypath.backend.exception.AirportNotFoundException;
+import com.skypath.backend.exception.FlightSearchException;
 import com.skypath.backend.model.*;
 import com.skypath.backend.repository.FlightDataRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 @Service
@@ -35,6 +38,13 @@ public class FlightSearchService {
         if (origin.equals(destination))
             return Collections.emptyList();
 
+        LocalDate departureDate;
+        try {
+            departureDate = LocalDate.parse(date);
+        } catch (DateTimeParseException e) {
+            throw new FlightSearchException("Invalid date format. Expected yyyy-MM-dd, got: " + date);
+        }
+
         List<Itinerary> results = new ArrayList<>();
         Queue<List<Flight>> queue = new LinkedList<>();
 
@@ -43,7 +53,9 @@ public class FlightSearchService {
                         .getOrDefault(origin, List.of());
 
         for (Flight flight : firstFlights) {
-            queue.add(List.of(flight));
+            if (flight.getDepartureTime().toLocalDate().equals(departureDate)) {
+                queue.add(List.of(flight));
+            }
         }
 
         while (!queue.isEmpty()) {

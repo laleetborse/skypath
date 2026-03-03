@@ -80,11 +80,42 @@ body {
   background: var(--color-accent);
 }
 
+input[type="date"] {
+  color-scheme: light;
+  min-height: 44px;
+}
+
+.dark input[type="date"] {
+  color-scheme: dark;
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.5);
   cursor: pointer;
+  border-radius: 4px;
+  filter: invert(0.5);
+  opacity: 0.7;
+  transition: opacity 0.2s, filter 0.2s;
 }
 
 .dark input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(0.7);
+  filter: invert(0.8);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+  padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-text,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: var(--color-fg);
 }
