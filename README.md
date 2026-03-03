@@ -253,9 +253,8 @@ Tests cover all 6 test scenarios from the spec, plus connection rule validation 
 
 1. **Server-side pagination and filtering** — paginated API with cursor-based pagination for large result sets.
 2. **Caching layer** — Redis or Caffeine cache keyed by (origin, destination, date) with short TTL.
-3. **Visited-airport tracking in BFS** — prevent exploring the same airport twice in a single path for performance.
-4. **Layover duration in response segments** — currently `layoverMinutes` in each `FlightSegment` is not populated; would calculate per-segment layover for richer UI display.
-5. **Price sorting option** — allow sorting by price in addition to duration.
-6. **E2E tests** — Playwright or Cypress tests against the running Docker stack.
-7. **CI/CD pipeline** — GitHub Actions for build, test, and Docker image publish.
-8. **Rate limiting** — protect the search endpoint from abuse.
+3. **Layover duration in response segments** — currently `layoverMinutes` in each `FlightSegment` is not populated; would calculate per-segment layover for richer UI display.
+4. **Price sorting option** — allow sorting by price in addition to duration.
+5. **E2E tests** — Playwright or Cypress tests against the running Docker stack.
+6. **CI/CD pipeline** — GitHub Actions for build, test, and Docker image publish.
+7. **Rate limiting** — protect the search endpoint from abuse.
